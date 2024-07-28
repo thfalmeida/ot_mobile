@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ot_mobile/api_service/apiCarro.dart';
+import 'package:ot_mobile/api_service/apiRest.dart';
 
 import 'package:ot_mobile/models/carro.dart';
-import 'package:ot_mobile/pages/cards/carroCard.dart';
+import 'package:ot_mobile/models/model.dart';
+import 'package:ot_mobile/pages/carro/carroCard.dart';
 
 class CarrosPage extends StatefulWidget {
   const CarrosPage({super.key});
@@ -25,7 +26,7 @@ class CarrosPageState extends State<CarrosPage> {
     print("Buscando carros");
     isLoading = true;
     try {
-      carros = await ApiService.listaCarro();
+      carros = await ApiService.list(Models.carro);
     } catch (e) {
       print('Erro: $e');
     } finally {
@@ -43,8 +44,7 @@ class CarrosPageState extends State<CarrosPage> {
     });
 
     try {
-      await ApiService.deleteCarro(id);
-      await fetchCarros();
+      await ApiService.deleteCarro(Models.carro, id);
     } catch (e) {
       print('Erro: $e');
     } finally {
@@ -59,7 +59,7 @@ class CarrosPageState extends State<CarrosPage> {
     });
     print("Salvando carro");
     try {
-      await ApiService.saveCarro(carro);
+      await ApiService.saveCliente(Models.carro, carro);
     } catch (e) {
       print("Erro: $e");
     } finally {
@@ -74,7 +74,7 @@ class CarrosPageState extends State<CarrosPage> {
     });
     try {
       print("Atualizando carro");
-      await ApiService.updateCarro(carro);
+      await ApiService.updateCarro(Models.carro, carro);
       print("Carro atualizado");
     } catch (e) {
       print("Erro: $e");

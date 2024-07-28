@@ -1,8 +1,9 @@
 // lib/models/carro.dart
 
 import 'package:flutter/material.dart';
+import 'package:ot_mobile/models/model.dart';
 
-class Carro {
+class Carro extends Model {
   int id;
   String? nome;
   String? placa;

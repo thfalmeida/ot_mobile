@@ -1,9 +1,9 @@
-import 'package:http/http.dart' as http;
 import 'package:ot_mobile/models/carro.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../config.dart';
 
-class ApiService {
+class ApiService2 {
   static Future<List<Carro>> listaCarro() async {
     Uri url = Uri.parse('${Config.baseUrl}${Config.carUrl}list');
     final response = await http.get(url);

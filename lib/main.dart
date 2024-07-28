@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ot_mobile/models/carro.dart';
 import 'pages/motoristaPage.dart';
-import 'pages/carroPage.dart';
+import 'pages/carro/carroPage.dart';
 import 'package:provider/provider.dart';
-import 'pages/clientePage.dart';
+import 'pages/cliente/clientePage.dart';
 import 'pages/viagemPage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

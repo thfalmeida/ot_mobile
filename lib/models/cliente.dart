@@ -1,6 +1,8 @@
 // lib/models/cliente.dart
 
-class Cliente {
+import 'package:ot_mobile/models/model.dart';
+
+class Cliente extends Model {
   int id;
   String? nome;
   String? endereco;
@@ -11,7 +13,6 @@ class Cliente {
     this.endereco,
   });
 
-  // Factory method to create a Cliente instance from a JSON map
   factory Cliente.fromJson(Map<String, dynamic> json) {
     return Cliente(
       id: json['id'],
