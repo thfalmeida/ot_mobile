@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ot_mobile/models/carro.dart';
-import 'pages/motoristaPage.dart';
-import 'pages/carro/carroPage.dart';
+import 'package:ot_mobile/models/impl/carro.dart';
+import 'package:ot_mobile/pages/representante/representantePage.dart';
+import 'pages/motorista/motoristaPage.dart';
+import 'pages/carro/carro_page.dart';
 import 'package:provider/provider.dart';
-import 'pages/cliente/clientePage.dart';
+import 'pages/cliente/cliente_page.dart';
 import 'pages/viagemPage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -49,7 +50,7 @@ class MyHomePage extends StatelessWidget {
               title: const Text('Motorista'),
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MotoristaPage()));
+                    MaterialPageRoute(builder: (context) => MotoristasPage()));
               },
             ),
             ListTile(
@@ -64,6 +65,15 @@ class MyHomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ClientesPage()));
+              },
+            ),
+            ListTile(
+              title: const Text('Representante'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RepresentantesPage()));
               },
             ),
             ListTile(

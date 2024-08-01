@@ -1,15 +1,26 @@
 // lib/models/motorista.dart
 
-class Motorista {
+import 'package:ot_mobile/models/impl/model.dart';
+
+class Motorista extends Model {
+  @override
   int id;
-  String nome;
+  String? nome;
   String? telefone;
 
   Motorista({
     required this.id,
-    required this.nome,
+    this.nome,
     this.telefone,
   });
+
+  String getNome() {
+    return nome ?? "";
+  }
+
+  String getTelefone() {
+    return telefone ?? "";
+  }
 
   // Factory method to create a Motorista instance from a JSON map
   factory Motorista.fromJson(Map<String, dynamic> json) {

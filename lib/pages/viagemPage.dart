@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:ot_mobile/models/viagem.dart';
+import 'package:ot_mobile/models/impl/viagem.dart';
 
 class ViagensPage extends StatefulWidget {
   @override

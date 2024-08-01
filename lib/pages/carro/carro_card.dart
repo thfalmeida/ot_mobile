@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:ot_mobile/models/cliente.dart';
+import 'package:ot_mobile/models/impl/carro.dart';
 
-class ClienteCard extends StatelessWidget {
-  final Cliente cliente;
+class CarroCard extends StatelessWidget {
+  final Carro carro;
   final VoidCallback onDelete;
   final VoidCallback onSave;
 
-  const ClienteCard(
-      {required this.cliente,
+  const CarroCard(
+      {required this.carro,
       required this.onDelete,
       required this.onSave,
       Key? key})
@@ -19,7 +19,7 @@ class ClienteCard extends StatelessWidget {
         context: context,
         builder: (BuildContext contextt) {
           return AlertDialog(
-            title: const Text('Deletar cliente?'),
+            title: const Text('Deletar carro?'),
             content: const Text('Essa ação não poderá ser desfeita'),
             actions: <Widget>[
               TextButton(
@@ -39,43 +39,42 @@ class ClienteCard extends StatelessWidget {
   }
 
   void showEditDialog(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+    final _formKey = GlobalKey<FormState>();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Editar cliente"),
+          title: const Text("Editar carro"),
           content: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  decoration:
-                      const InputDecoration(labelText: 'Nome do cliente'),
-                  initialValue: cliente.nome,
+                  decoration: const InputDecoration(labelText: 'Nome do Carro'),
+                  initialValue: carro.getNome(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, insira um nome do cliente';
+                      return 'Por favor, insira um nome para o carro';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    cliente.nome = value!;
+                    carro.nome = value!;
                   },
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Endereço'),
-                  initialValue: cliente.endereco,
+                  decoration: const InputDecoration(labelText: 'Placa'),
+                  initialValue: carro.getPlaca(),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira o endereço do cliente';
+                    if (value == null || value.isEmpty || value.length != 7) {
+                      return 'Por favor, insira a placa do veículo';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    cliente.endereco = value!;
+                    carro.placa = value!;
                   },
                 )
               ],
@@ -90,8 +89,8 @@ class ClienteCard extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  formKey.currentState!.save();
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
                   onSave();
                   Navigator.of(context).pop();
                 }
@@ -102,6 +101,10 @@ class ClienteCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget carroCard(BuildContext context, Carro carro) {
+    return SizedBox();
   }
 
   @override
@@ -119,12 +122,12 @@ class ClienteCard extends StatelessWidget {
                   Expanded(
                       child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(cliente.nome.toString()))),
+                          child: Text(carro.getNome()))),
                   Expanded(
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            cliente.id.toString(),
+                            carro.id.toString(),
                             style: const TextStyle(color: Colors.grey),
                           )))
                 ]),
@@ -132,7 +135,7 @@ class ClienteCard extends StatelessWidget {
                 Expanded(
                     child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(cliente.endereco.toString()))),
+                        child: Text(carro.getPlaca()))),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Row(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:ot_mobile/models/carro.dart';
+import 'package:ot_mobile/models/impl/motorista.dart';
 
-class CarroCard extends StatelessWidget {
-  final Carro carro;
+class MotoristaCard extends StatelessWidget {
+  final Motorista motorista;
   final VoidCallback onDelete;
   final VoidCallback onSave;
 
-  const CarroCard(
-      {required this.carro,
+  const MotoristaCard(
+      {required this.motorista,
       required this.onDelete,
       required this.onSave,
       Key? key})
@@ -19,7 +19,7 @@ class CarroCard extends StatelessWidget {
         context: context,
         builder: (BuildContext contextt) {
           return AlertDialog(
-            title: const Text('Deletar carro?'),
+            title: const Text('Deletar motorista?'),
             content: const Text('Essa ação não poderá ser desfeita'),
             actions: <Widget>[
               TextButton(
@@ -39,42 +39,43 @@ class CarroCard extends StatelessWidget {
   }
 
   void showEditDialog(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Editar carro"),
+          title: const Text("Editar motorista"),
           content: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Nome do Carro'),
-                  initialValue: carro.nome,
+                  decoration:
+                      const InputDecoration(labelText: 'Nome do motorista'),
+                  initialValue: motorista.nome,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, insira um nome para o carro';
+                      return 'Por favor, insira o nome do motorista';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    carro.nome = value!;
+                    motorista.nome = value!;
                   },
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Placa'),
-                  initialValue: carro.placa,
+                  decoration: const InputDecoration(labelText: 'Telefone'),
+                  initialValue: motorista.telefone,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, insira a placa do veículo';
+                      return 'Por favor, insira o telefone do motorista';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    carro.placa = value!;
+                    motorista.telefone = value!;
                   },
                 )
               ],
@@ -89,8 +90,8 @@ class CarroCard extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
                   onSave();
                   Navigator.of(context).pop();
                 }
@@ -101,10 +102,6 @@ class CarroCard extends StatelessWidget {
         );
       },
     );
-  }
-
-  Widget carroCard(BuildContext context, Carro carro) {
-    return SizedBox();
   }
 
   @override
@@ -122,12 +119,12 @@ class CarroCard extends StatelessWidget {
                   Expanded(
                       child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(carro.nome.toString()))),
+                          child: Text(motorista.nome.toString()))),
                   Expanded(
                       child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            carro.id.toString(),
+                            motorista.id.toString(),
                             style: const TextStyle(color: Colors.grey),
                           )))
                 ]),
@@ -135,7 +132,7 @@ class CarroCard extends StatelessWidget {
                 Expanded(
                     child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(carro.placa.toString()))),
+                        child: Text(motorista.telefone.toString()))),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Row(
