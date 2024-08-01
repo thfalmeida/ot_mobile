@@ -1,7 +1,7 @@
 // lib/models/carro.dart
 
 import 'package:flutter/material.dart';
-import 'package:ot_mobile/models/model.dart';
+import 'package:ot_mobile/models/impl/model.dart';
 
 class Carro extends Model {
   int id;
@@ -23,12 +23,21 @@ class Carro extends Model {
     );
   }
 
+  String getNome() {
+    return nome ?? "";
+  }
+
+  String getPlaca() {
+    return placa ?? "";
+  }
+
   // Method to convert a Carro instance to a JSON map
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id.toString(),
-      'nome': nome,
-      'placa': placa,
+      'nome': getNome(),
+      'placa': getPlaca(),
     };
   }
 }

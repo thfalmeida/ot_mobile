@@ -1,127 +1,127 @@
 import 'package:flutter/material.dart';
+
 import 'package:ot_mobile/api_service/apiRest.dart';
 
-import 'package:ot_mobile/models/carro.dart';
-import 'package:ot_mobile/models/model.dart';
-import 'package:ot_mobile/pages/carro/carroCard.dart';
+import 'package:ot_mobile/models/impl/cliente.dart';
+import 'package:ot_mobile/models/impl/model.dart';
+import 'package:ot_mobile/pages/cliente/cliente_card.dart';
 
-class CarrosPage extends StatefulWidget {
-  const CarrosPage({super.key});
+class ClientesPage extends StatefulWidget {
+  const ClientesPage({super.key});
 
   @override
-  CarrosPageState createState() => CarrosPageState();
+  ClientesPageState createState() => ClientesPageState();
 }
 
-class CarrosPageState extends State<CarrosPage> {
+class ClientesPageState extends State<ClientesPage> {
   late bool isLoading;
-  List<dynamic> carros = [];
+  List<dynamic> clientes = [];
 
   @override
   void initState() {
     super.initState();
-    fetchCarros();
+    fetchClientes();
   }
 
-  Future<void> fetchCarros() async {
-    print("Buscando carros");
-    isLoading = true;
+  void setLoading(bool isLoading) {
+    setState(() {
+      this.isLoading = isLoading;
+    });
+  }
+
+  Future<void> fetchClientes() async {
+    print("Buscando clientes");
+    setLoading(true);
     try {
-      carros = await ApiService.list(Models.carro);
+      clientes = await ApiService.list(Models.cliente);
     } catch (e) {
       print('Erro: $e');
     } finally {
       print("Fim");
-      setState(() {
-        isLoading = false;
-      });
+      setLoading(false);
     }
   }
 
-  Future<void> deleteCarro(int id) async {
-    print("Listando carros");
-    setState(() {
-      isLoading = true;
-    });
+  Future<void> deleteCliente(int id) async {
+    print("Listando clientes");
+    setLoading(true);
 
     try {
-      await ApiService.deleteCarro(Models.carro, id);
+      await ApiService.delete(Models.cliente, id);
     } catch (e) {
       print('Erro: $e');
     } finally {
-      isLoading = false;
-      fetchCarros();
+      fetchClientes();
     }
   }
 
-  Future<void> saveCarro(Carro carro) async {
-    setState(() {
-      isLoading = true;
-    });
-    print("Salvando carro");
+  Future<void> saveCliente(Cliente cliente) async {
+    setLoading(true);
+
+    print("Salvando cliente");
     try {
-      await ApiService.saveCliente(Models.carro, carro);
+      await ApiService.save(Models.cliente, cliente);
     } catch (e) {
       print("Erro: $e");
     } finally {
-      fetchCarros();
+      fetchClientes();
     }
   }
 
-  Future<void> updateCarro(Carro carro) async {
+  Future<void> updateCliente(Cliente cliente) async {
     print("Entrando na atualização de carro");
-    setState(() {
-      isLoading = true;
-    });
+    setLoading(true);
     try {
       print("Atualizando carro");
-      await ApiService.updateCarro(Models.carro, carro);
+      await ApiService.update(Models.cliente, cliente);
       print("Carro atualizado");
     } catch (e) {
       print("Erro: $e");
     } finally {
-      fetchCarros();
+      fetchClientes();
     }
   }
 
   void showNewCarDialog(BuildContext context) {
     final formKey = GlobalKey<FormState>();
 
-    Carro carro = Carro(id: -1);
+    Cliente cliente = Cliente(id: -1);
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Cadastrar carro"),
+          title: const Text("Cadastrar cliente"),
           content: Form(
             key: formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Nome do Carro'),
+                  decoration:
+                      const InputDecoration(labelText: 'Nome do cliente'),
                   initialValue: "",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, insira um nome para o carro';
+                      return 'Por favor, insira um nome para o cliente';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    carro.nome = value!;
+                    cliente.nome = value!;
                   },
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Placa'),
+                  decoration: const InputDecoration(labelText: 'Endereço'),
                   initialValue: "",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, insira a placa do veículo';
+                      return 'Por favor, insira o endereço do cliente';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    carro.placa = value!;
+                    cliente.endereco = value!;
                   },
                 )
               ],
@@ -138,7 +138,7 @@ class CarrosPageState extends State<CarrosPage> {
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  await saveCarro(carro);
+                  saveCliente(cliente);
                   Navigator.of(context).pop();
                 }
               },
@@ -153,22 +153,23 @@ class CarrosPageState extends State<CarrosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Carros')),
+        appBar: AppBar(title: const Text('Clientes')),
         body: isLoading
             ? const Center(
                 child: CircularProgressIndicator(
                 color: Colors.blue,
               ))
             : RefreshIndicator(
-                onRefresh: fetchCarros,
+                onRefresh: fetchClientes,
                 child: ListView.builder(
-                  itemCount: carros.length,
+                  padding: const EdgeInsets.only(bottom: 90),
+                  itemCount: clientes.length,
                   itemBuilder: (context, index) {
-                    final carro = carros[index];
-                    return CarroCard(
-                        carro: carro,
-                        onDelete: () => deleteCarro(carro.id),
-                        onSave: () => updateCarro(carro));
+                    final cliente = clientes[index];
+                    return ClienteCard(
+                        cliente: cliente,
+                        onDelete: () => deleteCliente(cliente.id),
+                        onSave: () => updateCliente(cliente));
                   },
                 ),
               ),

@@ -43,4 +43,5 @@ app.*.map.json
 /android/app/release
 
 # DotEnv
-    *.env
+.env
+*.env

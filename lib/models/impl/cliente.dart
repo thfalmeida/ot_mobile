@@ -1,6 +1,6 @@
 // lib/models/cliente.dart
 
-import 'package:ot_mobile/models/model.dart';
+import 'package:ot_mobile/models/impl/model.dart';
 
 class Cliente extends Model {
   int id;
@@ -12,6 +12,14 @@ class Cliente extends Model {
     this.nome,
     this.endereco,
   });
+
+  String getNome() {
+    return nome ?? "";
+  }
+
+  String getEndereco() {
+    return endereco ?? "";
+  }
 
   factory Cliente.fromJson(Map<String, dynamic> json) {
     return Cliente(
